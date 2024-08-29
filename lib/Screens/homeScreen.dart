@@ -50,117 +50,120 @@ class _HomescreenState extends State<Homescreen> {
         ),
         backgroundColor: const Color(0xff3cc3ff),
         body: SafeArea(
-            child: SingleChildScrollView(
-          child: SizedBox(
-            width: widthScreen,
-            height: heightScreen,
-            child: Column(
-              children: [
-                 SizedBox(
-                  height: heightScreen*0.03,
-                ),
-                InkWell(
-                  child: Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: widthScreen*0.03,),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                            radius: widthScreen*0.07,
-                            child: Icon(
-                              Icons.list,
-                              color: const Color(0xff3cc3ff),
-                              size: widthScreen*0.09,
-                            )),
-                      ],
+            child: SizedBox(
+              width: widthScreen,
+              height: heightScreen,
+              child: Column(
+                children: [
+                   SizedBox(
+                    height: heightScreen*0.03,
+                  ),
+                  InkWell(
+                    child: Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: widthScreen*0.03,),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                              radius: widthScreen*0.07,
+                              child: Icon(
+                                Icons.list,
+                                color: const Color(0xff3cc3ff),
+                                size: widthScreen*0.09,
+                              )),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                 SizedBox(
-                  height: heightScreen*0.01,
-                ),
-                SizedBox(
-                  child: Padding(
+                   SizedBox(
+                    height: heightScreen*0.01,
+                  ),
+                  SizedBox(
+                    child: Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: widthScreen*0.03),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ToDoey',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: widthScreen*0.1,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                   SizedBox(
+                    height: heightScreen*0.01,
+                  ),
+                  Padding(
                     padding:  EdgeInsets.symmetric(horizontal: widthScreen*0.03),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'ToDoey',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: widthScreen*0.1,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                        Consumer<TasksData>(builder: (context, TaskData, child) {
+                          return Text(
+                            '${TaskData.Tasks.length} tasks',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                fontSize: widthScreen*0.055),
+                          );
+                        }),
                       ],
                     ),
                   ),
-                ),
-                 SizedBox(
-                  height: heightScreen*0.01,
-                ),
-                Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: widthScreen*0.03),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Consumer<TasksData>(builder: (context, TaskData, child) {
-                        return Text(
-                          '${TaskData.Tasks.length} tasks',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400,
-                              fontSize: widthScreen*0.055),
-                        );
-                      }),
-                    ],
+                   SizedBox(
+                    height: heightScreen*0.03,
                   ),
-                ),
-                 SizedBox(
-                  height: heightScreen*0.03,
-                ),
-                Expanded(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(30)),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(widthScreen*0.03),
-                      child: Consumer<TasksData>(
-                          builder: (context, TaskData, child) {
-                        return ListView.builder(
-                            itemCount: TaskData.Tasks.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                trailing: Checkbox(
-                                  activeColor: Colors.white,
-                                  checkColor:const Color(0xff3cc3ff),
-                                  value: TaskData.Tasks[index].isDone,
-                                  onChanged: (value) {
+                  Expanded(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30)),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(widthScreen*0.03),
+                        child: Consumer<TasksData>(
+                            builder: (context, TaskData, child) {
+                          return ListView.builder(
+                              itemCount: TaskData.Tasks.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  trailing: Checkbox(
+                                    side: BorderSide(color: Color(0xff3cc3ff)),
+                                    activeColor: Colors.white,
+                                    checkColor:const Color(0xff3cc3ff),
+                                    value: TaskData.Tasks[index].isDone,
+                                    onChanged: (value) {
 
-                                      TaskData.Check(TaskData.Tasks[index]);
+                                        TaskData.Check(TaskData.Tasks[index]);
 
 
-                                  },
-                                ),
-                                title: Text(TaskData.Tasks[index].name,style: TextStyle(fontWeight: FontWeight.w400,fontSize: widthScreen*0.04,),),
-                                  onLongPress:(){
-                                      TaskData.DeleteTask(TaskData.Tasks[index]);
-                                  }
+                                    },
+                                  ),
+                                  title:
+                                  Text(TaskData.Tasks[index].name,style: TextStyle( color: TaskData.Tasks[index].isDone ? Colors.grey : Colors.black,
+                                    decoration: TaskData.Tasks[index].isDone ? TextDecoration.lineThrough : TextDecoration.none,
+                                    decorationColor: Color(0xff3cc3ff),
+                                    fontWeight: FontWeight.w400,fontSize: widthScreen*0.04,),),
+                                    onLongPress:(){
+                                        TaskData.DeleteTask(TaskData.Tasks[index]);
+                                    }
+                                );
+                              }
                               );
-                            }
-                            );
-                      }),
+                        }),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-        )));
+                ],
+              ),
+            )));
   }
 }
