@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
+
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context)=> TasksData(),
@@ -19,7 +20,9 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             useMaterial3: true,
           ),
-          home: Homescreen(),
+          home: Homescreen(
+
+          ),
         )
 
     );

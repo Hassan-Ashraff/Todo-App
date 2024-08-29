@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/Provider/tasks_data.dart';
-import 'package:todo_app/Screens/addTaskScreen.dart';
+import 'package:todo_app/Screens/addTask_Screen.dart';
+
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -10,9 +12,20 @@ class Homescreen extends StatefulWidget {
   State<Homescreen> createState() => _HomescreenState();
 }
 
+
 class _HomescreenState extends State<Homescreen> {
   @override
+  void initState(){
+    super.initState();
+    Provider.of<TasksData>(context,listen: false).loadTasks();
+
+
+  }
+
+  @override
   Widget build(BuildContext context) {
+   double widthScreen = MediaQuery.of(context).size.width;
+   double  heightScreen = MediaQuery.of(context).size.height;
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -25,48 +38,50 @@ class _HomescreenState extends State<Homescreen> {
                     padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).viewInsets.bottom,
                     ),
-                    child: AddTask(),
+                    child: const AddTask(),
                   ));
                 });
           },
-          backgroundColor: Color(0xff3cc3ff),
-          child: Icon(
+          backgroundColor: const Color(0xff3cc3ff),
+          child: const Icon(
             Icons.add,
             color: Colors.white,
           ),
         ),
-        backgroundColor: Color(0xff3cc3ff),
+        backgroundColor: const Color(0xff3cc3ff),
         body: SafeArea(
             child: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+          child: SizedBox(
+            width: widthScreen,
+            height: heightScreen,
             child: Column(
               children: [
-                const SizedBox(
-                  height: 16,
+                 SizedBox(
+                  height: heightScreen*0.03,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                          radius: 30,
-                          child: Icon(
-                            Icons.list,
-                            color: Color(0xff3cc3ff),
-                            size: 35,
-                          )),
-                    ],
+                InkWell(
+                  child: Padding(
+                    padding:  EdgeInsets.symmetric(horizontal: widthScreen*0.03,),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                            radius: widthScreen*0.07,
+                            child: Icon(
+                              Icons.list,
+                              color: const Color(0xff3cc3ff),
+                              size: widthScreen*0.09,
+                            )),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(
-                  height: 8,
+                 SizedBox(
+                  height: heightScreen*0.01,
                 ),
-                Container(
+                SizedBox(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding:  EdgeInsets.symmetric(horizontal: widthScreen*0.03),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -74,7 +89,7 @@ class _HomescreenState extends State<Homescreen> {
                           'ToDoey',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 50,
+                            fontSize: widthScreen*0.1,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -82,11 +97,11 @@ class _HomescreenState extends State<Homescreen> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 8,
+                 SizedBox(
+                  height: heightScreen*0.01,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding:  EdgeInsets.symmetric(horizontal: widthScreen*0.03),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -95,26 +110,26 @@ class _HomescreenState extends State<Homescreen> {
                           '${TaskData.Tasks.length} tasks',
                           style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.w300,
-                              fontSize: 20),
+                              fontWeight: FontWeight.w400,
+                              fontSize: widthScreen*0.055),
                         );
                       }),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                 SizedBox(
+                  height: heightScreen*0.03,
                 ),
                 Expanded(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(30)),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(widthScreen*0.03),
                       child: Consumer<TasksData>(
                           builder: (context, TaskData, child) {
                         return ListView.builder(
@@ -122,15 +137,17 @@ class _HomescreenState extends State<Homescreen> {
                             itemBuilder: (context, index) {
                               return ListTile(
                                 trailing: Checkbox(
+                                  activeColor: Colors.white,
+                                  checkColor:const Color(0xff3cc3ff),
                                   value: TaskData.Tasks[index].isDone,
-                                  onChanged: (v) {
+                                  onChanged: (value) {
 
                                       TaskData.Check(TaskData.Tasks[index]);
 
 
                                   },
                                 ),
-                                title: Text(TaskData.Tasks[index].name,style: TextStyle(fontWeight: FontWeight.w400,),),
+                                title: Text(TaskData.Tasks[index].name,style: TextStyle(fontWeight: FontWeight.w400,fontSize: widthScreen*0.04,),),
                                   onLongPress:(){
                                       TaskData.DeleteTask(TaskData.Tasks[index]);
                                   }
