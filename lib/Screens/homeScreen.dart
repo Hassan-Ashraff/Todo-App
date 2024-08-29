@@ -136,7 +136,7 @@ class _HomescreenState extends State<Homescreen> {
                               itemBuilder: (context, index) {
                                 return ListTile(
                                   trailing: Checkbox(
-                                    side: BorderSide(color: Color(0xff3cc3ff)),
+                                    side: const BorderSide(color: Color(0xff3cc3ff)),
                                     activeColor: Colors.white,
                                     checkColor:const Color(0xff3cc3ff),
                                     value: TaskData.Tasks[index].isDone,
@@ -150,7 +150,7 @@ class _HomescreenState extends State<Homescreen> {
                                   title:
                                   Text(TaskData.Tasks[index].name,style: TextStyle( color: TaskData.Tasks[index].isDone ? Colors.grey : Colors.black,
                                     decoration: TaskData.Tasks[index].isDone ? TextDecoration.lineThrough : TextDecoration.none,
-                                    decorationColor: Color(0xff3cc3ff),
+                                    decorationColor: const Color(0xff3cc3ff),
                                     fontWeight: FontWeight.w400,fontSize: widthScreen*0.04,),),
                                     onLongPress:(){
                                         TaskData.DeleteTask(TaskData.Tasks[index]);
